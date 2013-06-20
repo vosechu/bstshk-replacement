@@ -32,7 +32,9 @@ get '/' do
 
   # Send a get to the user_timeline page and just output the json directly
   response = conn.get do |req|
-    req.url '/1.1/statuses/user_timeline.json?screen_name=best_of_mlkshk&count=50&trim_user=1&exclude_replies=1&include_entities=1'
+    url = "/1.1/statuses/user_timeline.json?screen_name=#{params[:screen_name] || "best_of_mlkshk"}&count=50&trim_user=1&exclude_replies=1&include_entities=1"
+    url += "&max_id=#{params[:max_id]}" if params[:max_id]
+    req.url url
     req.headers['User-Agent'] = 'bstshk v0.0.1'
     req.headers['Authorization'] = "Bearer #{access_token}"
   end
